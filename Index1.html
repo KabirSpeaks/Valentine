@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fff5f7;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .cursive {
+            font-family: 'Pacifico', cursive;
+        }
+
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 2rem;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .heart-icon {
+            color: #ff4d6d;
+            font-size: 3rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-forever {
+            background-color: #ff4d6d;
+            color: white;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-forever:hover {
+            background-color: #ff1e4d;
+            transform: scale(1.05);
+        }
+
+        #evasive-button {
+            position: absolute;
+            transition: all 0.2s ease-out;
+            white-space: nowrap;
+            background-color: #ffb3c1;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-weight: 600;
+            z-index: 30;
+        }
+
+        /* Lottery Win Animations */
+        .success-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff5f7;
+            color: #ff4d6d;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 60px 20px;
+            z-index: 100;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .win-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 200;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        @keyframes flashEffect {
+            0% { opacity: 0; }
+            10% { opacity: 1; background: #fffde7; }
+            100% { opacity: 0; }
+        }
+
+        .animate-pop {
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .floating-heart {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp 4s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .image-container {
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.2);
+            background: white;
+            border: 8px solid white;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            z-index: 150;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Flash effect for the transition -->
+    <div id="flash-overlay" class="win-flash"></div>
+
+    <!-- Main Invitation Card -->
+    <div id="main-card" class="card">
+        <div class="heart-icon mb-4">❤️</div>
+        <h1 class="text-3xl cursive text-pink-600 mb-6">Will you be my valentine?</h1>
+        
+        <div class="flex flex-col gap-4 mt-8 h-32 relative items-center">
+            <button onclick="celebrate()" class="btn-forever px-8 py-3 rounded-full font-bold text-lg shadow-lg z-20">
+                YES, Forever
+            </button>
+            
+            <button id="evasive-button">
+                YES, only for 2026
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div id="success-screen" class="success-screen">
+        <div id="success-content" class="max-w-md w-full flex flex-col items-center">
+            <div class="text-5xl mb-4">🎉🏆🎉</div>
+            <h1 class="text-xl md:text-2xl cursive mb-4 leading-relaxed text-pink-500">
+                CONGRATULATIONS ON UNLOCKING PREMIUM LIFE PARTNER SUBSCRIPTION FOR YOUR ENTIRE LIFE...
+            </h1>
+            <p class="text-lg md:text-xl font-bold mb-4 italic text-pink-600">ab No chinta, No Fhikar! ❤️</p>
+            
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&q=80&w=600" 
+                     alt="Cute Couple Holding Hands" 
+                     onerror="this.src='https://images.unsplash.com/photo-1522673607200-1648832cee98?auto=format&fit=crop&q=80&w=600'">
+            </div>
+            
+            <div class="text-4xl mt-6 pb-20">✨💍✨</div>
+        </div>
+    </div>
+
+    <script>
+        const evasiveBtn = document.getElementById('evasive-button');
+        const mainCard = document.getElementById('main-card');
+        const flashOverlay = document.getElementById('flash-overlay');
+        const successScreen = document.getElementById('success-screen');
+        const successContent = document.getElementById('success-content');
+        
+        window.onload = () => {
+            resetEvasiveButton();
+        };
+
+        function resetEvasiveButton() {
+            evasiveBtn.style.position = 'absolute';
+            evasiveBtn.style.left = '50%';
+            evasiveBtn.style.transform = 'translateX(-50%)';
+            evasiveBtn.style.top = '100px';
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if (successScreen.style.display === 'flex') return;
+
+            const btnRect = evasiveBtn.getBoundingClientRect();
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+
+            const distance = Math.hypot(mouseX - btnCenterX, mouseY - btnCenterY);
+
+            if (distance < 100) {
+                let newX = Math.random() * (window.innerWidth - btnRect.width);
+                let newY = Math.random() * (window.innerHeight - btnRect.height);
+
+                newX = Math.max(20, Math.min(newX, window.innerWidth - btnRect.width - 20));
+                newY = Math.max(20, Math.min(newY, window.innerHeight - btnRect.height - 20));
+
+                evasiveBtn.style.position = 'fixed';
+                evasiveBtn.style.left = newX + 'px';
+                evasiveBtn.style.top = newY + 'px';
+                evasiveBtn.style.transform = 'none';
+            }
+        });
+
+        function celebrate() {
+            // 1. Trigger Flash
+            flashOverlay.style.animation = 'flashEffect 0.6s ease-out';
+            
+            // 2. Hide old card
+            mainCard.style.opacity = '0';
+            mainCard.style.transform = 'scale(0.8)';
+            evasiveBtn.style.display = 'none';
+
+            setTimeout(() => {
+                // 3. Show success screen
+                mainCard.style.display = 'none';
+                successScreen.style.display = 'flex';
+                successContent.classList.add('animate-pop');
+                
+                // 4. Start mega fireworks/hearts
+                createHearts(100);
+                createConfetti();
+            }, 300);
+        }
+
+        function createHearts(count = 60) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    // Mix of hearts and gold sparkles
+                    const items = ['❤️', '💖', '✨', '💍', '🌸', '💝', '⭐'];
+                    heart.innerHTML = items[Math.floor(Math.random() * items.length)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 5000);
+                }, i * 50);
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ff4d6d', '#ffb3c1', '#ffd700', '#ffffff', '#ff85a1'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                
+                const duration = Math.random() * 3 + 2;
+                confetti.style.transition = `transform ${duration}s linear, top ${duration}s linear`;
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.style.top = '110vh';
+                    confetti.style.transform = `rotate(${Math.random() * 1000}deg) translateX(${Math.random() * 100 - 50}px)`;
+                }, 10);
+
+                setTimeout(() => confetti.remove(), duration * 1000);
+            }
+        }
+
+        // Ambient background hearts for the main screen
+        setInterval(() => {
+            if (successScreen.style.display !== 'flex') {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = '🌸';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = '15px';
+                heart.style.color = '#ffb3c1';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 4000);
+            }
+        }, 800);
+    </script>
+</body>
+</html>
